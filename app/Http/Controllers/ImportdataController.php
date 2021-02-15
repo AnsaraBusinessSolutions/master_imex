@@ -6,6 +6,7 @@ use App\importdata;
 use App\ibd_po_detail;
 use App\Hssmaster;
 use App\Materialmaster;
+use App\pgi_detail;
 use Illuminate\Http\Request;
 use Rap2hpoutre\FastExcel\FastExcel;
 use Carbon\Carbon;
@@ -107,9 +108,7 @@ class ImportdataController extends Controller
         }elseif($master=='pgi_details'){
             $bccnt=pgi_detail::count();
             $customers = (new FastExcel)->import($path, function ($line) {
-                return pgi_detail::updateOrCreate([
-
-                ],[
+                return pgi_detail::Create([
                     'pgi_id' => $line['pgi_id'],
                     'obd_no' => $line['obd_no'],
                     'batch_qty' => $line['batch_qty'],

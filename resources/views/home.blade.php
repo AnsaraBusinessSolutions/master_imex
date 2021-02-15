@@ -37,6 +37,8 @@
 
                           <option value="ibd_po_details">PO Details</option>
 
+                          <option value="pgi_details">PGI Details</option>
+
                         </select> 
 
                         <br>
