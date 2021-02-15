@@ -6,7 +6,7 @@ use App\importdata;
 use App\ibd_po_detail;
 use App\Hssmaster;
 use App\Materialmaster;
-use App\pgi_detail;
+use App\pgi_details;
 use Illuminate\Http\Request;
 use Rap2hpoutre\FastExcel\FastExcel;
 use Carbon\Carbon;
