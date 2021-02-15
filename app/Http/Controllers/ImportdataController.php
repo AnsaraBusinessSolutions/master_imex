@@ -106,9 +106,9 @@ class ImportdataController extends Controller
             $msg = "PO Total :".$accnt." | Created ".($accnt-$bccnt)." | Updated ".($iccnt-($accnt-$bccnt));
             return view('home')->with('datas',$msg);
         }elseif($master=='pgi_details'){
-            $bccnt=pgi_detail::count();
+            $bccnt=pgi_details::count();
             $customers = (new FastExcel)->import($path, function ($line) {
-                return pgi_detail::Create([
+                return pgi_details::Create([
                     'pgi_id' => $line['pgi_id'],
                     'obd_no' => $line['obd_no'],
                     'batch_qty' => $line['batch_qty'],
@@ -139,7 +139,7 @@ class ImportdataController extends Controller
                 ]);
             });
             $iccnt=count($customers);
-            $accnt=pgi_detail::count();
+            $accnt=pgi_details::count();
             $msg = "PO Total :".$accnt." | Created ".($accnt-$bccnt)." | Updated ".($iccnt-($accnt-$bccnt));
             return view('home')->with('datas',$msg);
         }else{
