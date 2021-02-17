@@ -1,8 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\importdata;
-use App\ibd_po_detail;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,9 +19,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', function () {
-	$bccnt0=importdata::count();
-	$bccnt1=ibd_po_detail::count();
-    $msg = "Stock Total :".$bccnt0." | PO Total :".$bccnt1;
+    $msg = "";
     return view('home')->with('datas',$msg);
 });
 
@@ -32,3 +28,6 @@ Route::post('/home', 'ImportdataController@index')->name('home');
 Route::view('/export', 'export')->name('export');
 
 Route::post('/export', 'ImportdataController@export')->name('exports');
+
+Route::get('/view', 'ImportdataController@view')->name('view');
+

@@ -39,6 +39,8 @@
 
                           <option value="pgi_details">PGI Details</option>
 
+                          <option value="material_master">Material Master</option>
+
                         </select> 
 
                         <br>
