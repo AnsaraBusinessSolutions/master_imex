@@ -230,14 +230,14 @@ class ImportdataController extends Controller
             $bccnt=material_master::count();
             $customers = (new FastExcel)->import($path, function ($line) {
                 return material_master::Create([
-                    'customer '=> $line['customer'],
-                    'nupco_generic_code '=> $line['nupco_generic_code'],
-                    'nupco_trade_code '=> $line['nupco_trade_code'],
-                    'nupco_desc '=> $line['nupco_desc'],
-                    'nupco_long_desc '=> $line['nupco_long_desc'],
-                    'uom '=> $line['uom'],
-                    'material_type '=> $line['material_type'],
-                    'division '=> $line['division'],
+                    'customer'=> $line['customer'],
+                    'nupco_generic_code'=> $line['nupco_generic_code'],
+                    'nupco_trade_code'=> $line['nupco_trade_code'],
+                    'nupco_desc'=> $line['nupco_desc'],
+                    'nupco_long_desc'=> $line['nupco_long_desc'],
+                    'uom'=> $line['uom'],
+                    'material_type'=> $line['material_type'],
+                    'division'=> $line['division'],
                     'customer_code '=> $line['customer_code'],
                     'customer_code_cat '=> $line['customer_code_cat'],
                     'customer_desc '=> $line['customer_desc'],
