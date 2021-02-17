@@ -33,6 +33,8 @@
 
                         <select id="master" name="master">
 
+                          <option value="" disabled>Select Table</option>
+
                           <option value="stock">Stock</option>
 
                           <option value="ibd_po_details">PO Details</option>

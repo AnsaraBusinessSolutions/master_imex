@@ -29,6 +29,7 @@
 
                         <select id="master" name="master">
 
+                            <option value="" disabled selected>Select Table</option>
                             <option value="account_groups ">account_groups </option>
                             <option value="admins ">admins </option>
                             <option value="assortment_lists ">assortment_lists </option>
