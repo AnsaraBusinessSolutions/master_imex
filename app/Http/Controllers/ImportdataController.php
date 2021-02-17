@@ -238,11 +238,11 @@ class ImportdataController extends Controller
                     'uom'=> $line['uom'],
                     'material_type'=> $line['material_type'],
                     'division'=> $line['division'],
-                    'customer_code '=> $line['customer_code'],
-                    'customer_code_cat '=> $line['customer_code_cat'],
-                    'customer_desc '=> $line['customer_desc'],
-                    'customer_long_desc '=> $line['customer_long_desc'],
-                    'status '=> $line['status']
+                    'customer_code'=> $line['customer_code'],
+                    'customer_code_cat'=> $line['customer_code_cat'],
+                    'customer_desc'=> $line['customer_desc'],
+                    'customer_long_desc'=> $line['customer_long_desc'],
+                    'status'=> $line['status']
                 ]);
             });
             $iccnt=count($customers);
