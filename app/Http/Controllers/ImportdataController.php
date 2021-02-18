@@ -366,9 +366,95 @@ class ImportdataController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function getall(Request $request)
+    public function master(Request $request)
     {
-        //
+        $tname=$request->master;
+        if($tname=='account_groups'){ $tname=account_groups::count();
+        }elseif($tname=='admins'){ $tname=admins::count();
+        }elseif($tname=='assortment_lists'){ $tname=assortment_lists::count();
+        }elseif($tname=='assortment_masters'){ $tname=assortment_masters::count();
+        }elseif($tname=='auom'){ $tname=auom::count();
+        }elseif($tname=='auom_api_logs'){ $tname=auom_api_logs::count();
+        }elseif($tname=='batch_list'){ $tname=batch_list::count();
+        }elseif($tname=='countries'){ $tname=countries::count();
+        }elseif($tname=='cust_category'){ $tname=cust_category::count();
+        }elseif($tname=='custodian_hss_connection'){ $tname=custodian_hss_connection::count();
+        }elseif($tname=='department_order_details'){ $tname=department_order_details::count();
+        }elseif($tname=='departments'){ $tname=departments::count();
+        }elseif($tname=='failed_jobs'){ $tname=failed_jobs::count();
+        }elseif($tname=='gi_details'){ $tname=gi_details::count();
+        }elseif($tname=='grn_details'){ $tname=grn_details::count();
+        }elseif($tname=='gtin'){ $tname=gtin::count();
+        }elseif($tname=='gtin_api_logs'){ $tname=gtin_api_logs::count();
+        }elseif($tname=='hss_master'){ $tname=hss_master::count();
+        }elseif($tname=='hss_master_logs'){ $tname=hss_master_logs::count();
+        }elseif($tname=='ibd_asn_batch_tmps'){ $tname=ibd_asn_batch_tmps::count();
+        }elseif($tname=='ibd_asn_details'){ $tname=ibd_asn_details::count();
+        }elseif($tname=='ibd_asn_gr_details'){ $tname=ibd_asn_gr_details::count();
+        }elseif($tname=='ibd_asn_gr_item_logs'){ $tname=ibd_asn_gr_item_logs::count();
+        }elseif($tname=='ibd_asn_gr_logs'){ $tname=ibd_asn_gr_logs::count();
+        }elseif($tname=='ibd_grn_logs'){ $tname=ibd_grn_logs::count();
+        }elseif($tname=='ibd_grns'){ $tname=ibd_grns::count();
+        }elseif($tname=='ibd_invoice_attachment_tmps'){ $tname=ibd_invoice_attachment_tmps::count();
+        }elseif($tname=='ibd_invoice_attachments'){ $tname=ibd_invoice_attachments::count();
+        }elseif($tname=='ibd_invoice_details'){ $tname=ibd_invoice_details::count();
+        }elseif($tname=='ibd_invoice_masters'){ $tname=ibd_invoice_masters::count();
+        }elseif($tname=='ibd_pcountet_count'){ $tname=ibd_pcountet_count::count();
+        }elseif($tname=='ibd_plant_details'){ $tname=ibd_plant_details::count();
+        }elseif($tname=='ibd_po_detail_api_logs'){ $tname=ibd_po_detail_api_logs::count();
+        }elseif($tname=='ibd_po_details'){ $tname=ibd_po_details::count();
+        }elseif($tname=='ibd_po_req'){ $tname=ibd_po_req::count();
+        }elseif($tname=='ibd_request_po'){ $tname=ibd_request_po::count();
+        }elseif($tname=='ibd_reservation_req'){ $tname=ibd_reservation_req::count();
+        }elseif($tname=='ibd_reservation_req_logs'){ $tname=ibd_reservation_req_logs::count();
+        }elseif($tname=='ibd_rgr_batch_tmps'){ $tname=ibd_rgr_batch_tmps::count();
+        }elseif($tname=='ibd_rgr_details'){ $tname=ibd_rgr_details::count();
+        }elseif($tname=='ibd_rgr_wh'){ $tname=ibd_rgr_wh::count();
+        }elseif($tname=='ibd_str_type'){ $tname=ibd_str_type::count();
+        }elseif($tname=='ibd_users'){ $tname=ibd_users::count();
+        }elseif($tname=='material_category_masters'){ $tname=material_category_masters::count();
+        }elseif($tname=='material_master'){ $tname=material_master::count();
+        }elseif($tname=='material_master_logs'){ $tname=material_master_logs::count();
+        }elseif($tname=='migrations'){ $tname=migrations::count();
+        }elseif($tname=='ministry_logo'){ $tname=ministry_logo::count();
+        }elseif($tname=='order_details'){ $tname=order_details::count();
+        }elseif($tname=='password_resets'){ $tname=password_resets::count();
+        }elseif($tname=='pgi_details'){ $tname=pgi_details::count();
+        }elseif($tname=='planning_parameters'){ $tname=planning_parameters::count();
+        }elseif($tname=='plant_data'){ $tname=plant_data::count();
+        }elseif($tname=='plant_data_api_logs'){ $tname=plant_data_api_logs::count();
+        }elseif($tname=='regions'){ $tname=regions::count();
+        }elseif($tname=='report_users'){ $tname=report_users::count();
+        }elseif($tname=='reservation_logs'){ $tname=reservation_logs::count();
+        }elseif($tname=='reservations'){ $tname=reservations::count();
+        }elseif($tname=='return_order_details'){ $tname=return_order_details::count();
+        }elseif($tname=='sales_order'){ $tname=sales_order::count();
+        }elseif($tname=='sales_order_log'){ $tname=sales_order_log::count();
+        }elseif($tname=='sales_order_status'){ $tname=sales_order_status::count();
+        }elseif($tname=='sales_order_status_logs'){ $tname=sales_order_status_logs::count();
+        }elseif($tname=='sales_org'){ $tname=sales_org::count();
+        }elseif($tname=='sloc_api_logs'){ $tname=sloc_api_logs::count();
+        }elseif($tname=='sloc_master'){ $tname=sloc_master::count();
+        }elseif($tname=='stock'){ $tname=stock::count();
+        }elseif($tname=='stock_consumption'){ $tname=stock_consumption::count();
+        }elseif($tname=='stock_logs'){ $tname=stock_logs::count();
+        }elseif($tname=='stock_old'){ $tname=stock_old::count();
+        }elseif($tname=='supplier_banks'){ $tname=supplier_banks::count();
+        }elseif($tname=='supplier_company_infos'){ $tname=supplier_company_infos::count();
+        }elseif($tname=='supplier_contact_infos'){ $tname=supplier_contact_infos::count();
+        }elseif($tname=='supplier_products'){ $tname=supplier_products::count();
+        }elseif($tname=='supplier_vat_details'){ $tname=supplier_vat_details::count();
+        }elseif($tname=='supplier_vat_file_types'){ $tname=supplier_vat_file_types::count();
+        }elseif($tname=='supplying_plant'){ $tname=supplying_plant::count();
+        }elseif($tname=='talend_webservices'){ $tname=talend_webservices::count();
+        }elseif($tname=='users'){ $tname=users::count();
+        }elseif($tname=='vaccine_bom'){ $tname=vaccine_bom::count();
+        }elseif($tname=='vendor_master_logs'){ $tname=vendor_master_logs::count();
+        }elseif($tname=='vendor_masters'){ $tname=vendor_masters::count();
+        }elseif($tname=='vendor_types'){ $tname=vendor_types::count();
+        }elseif($tname=='webservices'){ $tname=webservices::count();
+        }else{}
+        return 'Total : '.$tname;
     }
 
     /**

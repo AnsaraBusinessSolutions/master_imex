@@ -25,28 +25,29 @@
 
                         @csrf
 
-                        <input type="file" name="file" class="form-control" required>
-
-                        <br>
+                       
 
                         <label>Choose Master:</label>
 
                         <select id="master" name="master">
 
-                          <option value="" disabled>Select Table</option>
+                          <option value="" disabled selected="">Select Table</option>
 
-                          <option value="stock">Stock</option>
+                          <option value="stock">1.Stock</option>
 
-                          <option value="ibd_po_details">PO Details</option>
+                          <option value="ibd_po_details">2.PO Details</option>
 
-                          <option value="pgi_details">PGI Details</option>
+                          <option value="pgi_details">3.PGI Details (Only Create)</option>
 
-                          <option value="material_master">Material Master</option>
+                          <option value="material_master">4.Material Master (Only Create)</option>
 
                         </select> 
+                        <span id="total"></span>
+                        <br>
+
+                         <input type="file" name="file" class="form-control" required>
 
                         <br>
-                        
                         <button type="submit" class="btn btn-success">Import Data</button>
 
                     </form>

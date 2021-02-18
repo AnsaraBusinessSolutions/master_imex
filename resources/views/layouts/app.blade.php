@@ -11,6 +11,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -78,6 +79,23 @@
             @yield('content')
         </main>
     </div>
-    
+    <script type="text/javascript">
+        jQuery(document).ready(function($) {
+            $("#master").on('change', function() {
+                var master = $(this).val();
+                if(master){
+                       $.ajax ({
+                        type: 'GET',
+                        url: "{{ route('master') }}",
+                        data: {master:master},
+                        success : function(htmlresponse) {
+                            $('#total').html(htmlresponse);
+                        },error:function(e){
+                        alert("error");}
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 </html>

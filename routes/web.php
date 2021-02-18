@@ -31,3 +31,5 @@ Route::post('/export', 'ImportdataController@export')->name('exports');
 
 Route::get('/view', 'ImportdataController@view')->name('view');
 
+Route::get('/master', 'ImportdataController@master')->name('master');
+

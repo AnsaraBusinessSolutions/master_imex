@@ -120,9 +120,8 @@
                             <option value="webservices">webservices </option>
 
                         </select> 
-
+                        <span id="total"></span>
                         <br>
-                        
                         <button type="submit" class="btn btn-success">Export Data</button>
 
                     </form>
