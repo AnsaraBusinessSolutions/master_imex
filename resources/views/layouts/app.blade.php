@@ -79,20 +79,21 @@
             @yield('content')
         </main>
     </div>
-    <script type="text/javascript">
+    
+</body>
+<script type="text/javascript">
         jQuery(document).ready(function($) {
             var div_data='<option value="" disabled selected>Select Table</option>';
             $(div_data).appendTo('#master');
             setTimeout(function() {
                        all();
-                },10000);
+                },1000);
             function all(){
                 $.ajax ({
                     type: 'GET',
                     url: "{{ route('showall') }}",
                     data: {},
                     success : function(data) {
-
                         $.each(data,function(i,obj)
                         {
                             div_data="<option value="+obj.Tables_in_hos_s4+">"+(i+1)+". "+obj.Tables_in_hos_s4+"</option>";
@@ -133,5 +134,4 @@
             });
         });
     </script>
-</body>
 </html>
