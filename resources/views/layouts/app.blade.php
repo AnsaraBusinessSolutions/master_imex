@@ -88,7 +88,7 @@
             setTimeout(function() {
                        all();
                 },1000);
-            var DB='Tables_in_+{{ env("DB_DATABASE")}}';
+            var DB='Tables_in_'+'{{ env("DB_DATABASE")}}';
             function all(){
                 $.ajax ({
                     type: 'GET',
