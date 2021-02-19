@@ -28,7 +28,7 @@
                         <label>Table Name:</label>
 
                         <select id="master" name="master">
-
+                            
                         </select> 
 
                         <span id="total"></span>
