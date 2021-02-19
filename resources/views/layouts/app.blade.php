@@ -85,7 +85,7 @@
             $(div_data).appendTo('#master');
             setTimeout(function() {
                        all();
-                },1000);
+                },10000);
             function all(){
                 $.ajax ({
                     type: 'GET',
