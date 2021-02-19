@@ -27,9 +27,9 @@
 
                        
 
-                        <label>Choose Master:</label>
+                        <label>Table Name:</label>
 
-                        <select id="master" name="master">
+                        <select id="masters" name="master">
 
                           <option value="" disabled selected="">Select Table</option>
 
@@ -42,7 +42,9 @@
                           <option value="material_master">4.Material Master (Only Create)</option>
 
                         </select> 
-                        <span id="total"></span>
+
+                        <span id="totals"></span>
+                        
                         <br>
 
                          <input type="file" name="file" class="form-control" required>
