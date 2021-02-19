@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-//use DB;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -27,10 +26,6 @@ Route::get('/home', function () {
 Route::post('/home', 'ImportdataController@index')->name('home');
 
 Route::view('/export', 'export')->name('export');
-// Route::get('/export', function () {
-//     $tbls=DB::select('SHOW TABLES');
-//     return view('export')->with('list',$tbls);
-// })->name('home');
 
 Route::post('/export', 'ImportdataController@export')->name('exports');
 

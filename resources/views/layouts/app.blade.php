@@ -96,7 +96,7 @@
                     success : function(data) {
                         $.each(data,function(i,obj)
                         {
-                            div_data='<option value="'+obj.Tables_in_hos_s4+'">'+(i+1)+". "+obj.Tables_in_hos_s4+'</option>';
+                            div_data='<option value="'+obj.Tables_in_hos_s4+'">'+(i+1)+'. '+obj.Tables_in_hos_s4+'</option>';
                             $(div_data).appendTo('#master'); 
                         });
                     },error:function(e){
