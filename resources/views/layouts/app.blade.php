@@ -83,22 +83,26 @@
         jQuery(document).ready(function($) {
             var div_data='<option value="" disabled selected>Select Table</option>';
             $(div_data).appendTo('#master');
-            $.ajax ({
-                type: 'GET',
-                url: "{{ route('showall') }}",
-                data: {},
-                success : function(data) {
+            setTimeout(function() {
+                       all();
+                },1000);
+            function all(){
+                $.ajax ({
+                    type: 'GET',
+                    url: "{{ route('showall') }}",
+                    data: {},
+                    success : function(data) {
 
-                    $.each(data,function(i,obj)
-                    {
-                        div_data="<option value="+obj.Tables_in_hos_s4+">"+(i+1)+". "+obj.Tables_in_hos_s4+"</option>";
-                        //alert(div_data);
-                        $(div_data).appendTo('#master'); 
-                    }); 
-                    //$('#master').html(htmlresponse);
-                },error:function(e){
-                alert("error");}
-            });
+                        $.each(data,function(i,obj)
+                        {
+                            div_data="<option value="+obj.Tables_in_hos_s4+">"+(i+1)+". "+obj.Tables_in_hos_s4+"</option>";
+                            $(div_data).appendTo('#master'); 
+                        });
+                    },error:function(e){
+                    alert("error");}
+                });
+            }
+            
             $("#master").on('change', function() {
                 var master = $(this).val();
                 if(master){
