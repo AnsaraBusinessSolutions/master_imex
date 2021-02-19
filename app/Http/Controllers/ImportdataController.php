@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Rap2hpoutre\FastExcel\FastExcel;
+use Box\Spout\Writer\Style\StyleBuilder;
 use Carbon\Carbon;
 use DB;
 
@@ -349,7 +350,7 @@ class ImportdataController extends Controller
         }elseif($tname=='vendor_masters'){ $tname=vendor_masters::all();
         }elseif($tname=='vendor_types'){ $tname=vendor_types::all();
         }elseif($tname=='webservices'){ $tname=webservices::all();
-        }else{}
+        }else{$tname='';}
         //$tname=$tname::all();
         //print_r($tname);die;
         
@@ -357,7 +358,17 @@ class ImportdataController extends Controller
         // elseif($tname=='hss_master'){$tname=Hssmaster::all();$ename='HSS_Master_'.$tim;}
         // elseif($tname=='material_master'){$tname=Materialmaster::all();$ename='Material_Master'.$tim;}
         //return ($ename);
-        return (new FastExcel($tname))->download($ename.'.xlsx');
+        $header_style = (new StyleBuilder())->setFontBold()->build();
+
+        $rows_style = (new StyleBuilder())
+            ->setFontSize(11)
+            ->setShouldWrapText(false)
+            ->build();
+
+        return (new FastExcel($tname))
+            ->headerStyle($header_style)
+            ->rowsStyle($rows_style)
+            ->download($ename.'.xlsx');
     }
 
     /**
@@ -453,7 +464,7 @@ class ImportdataController extends Controller
         }elseif($tname=='vendor_masters'){ $tname=vendor_masters::count();
         }elseif($tname=='vendor_types'){ $tname=vendor_types::count();
         }elseif($tname=='webservices'){ $tname=webservices::count();
-        }else{}
+        }else{$tname='';}
         return 'Total : '.$tname;
     }
 
