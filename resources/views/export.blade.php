@@ -32,7 +32,7 @@
                         </select> 
 
                         <span id="total"></span>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ALL&nbsp;<input type="checkbox" id="all" name="all" value="ALL">
+                        <span style="float:right;">ALL&nbsp;<input type="checkbox" id="all" name="all" value="ALL"></span>
                         <br>
                         <span id="lists"></span>
                         <br>
