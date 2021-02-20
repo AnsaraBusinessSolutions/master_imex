@@ -219,8 +219,13 @@ class ImportdataController extends Controller
      */
     public function showall()
     {
+        $DB=env("DB_DATABASE");
+        $DB='Tables_in_'.$DB;
         $tbls=DB::select('SHOW TABLES');
-        return $tbls;
+        foreach ($tbls as $key => $value) {
+            $tbl[]=$value->$DB;
+        }
+        return $tbl;
     }
 
     /**

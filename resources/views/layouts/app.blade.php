@@ -88,7 +88,7 @@
             $(div_data).appendTo('#master');
             setTimeout(function() {
                        all();
-                },1000);
+                },500);
             function all(){
                 $.ajax ({
                     type: 'GET',
@@ -97,7 +97,7 @@
                     success : function(data) {
                         $.each(data,function(i,obj)
                         {
-                            div_data='<option value="'+obj.Tables_in_hos_s4+'">'+(i+1)+'. '+obj.Tables_in_hos_s4+'</option>';
+                            div_data='<option value="'+obj+'">'+(i+1)+'. '+obj+'</option>';
                             $(div_data).appendTo('#master'); 
                         });
                     },error:function(e){
