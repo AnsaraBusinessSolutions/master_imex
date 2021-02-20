@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-10">
             <div class="card">
                 <div class="card-header">
                     <div class="row">
@@ -32,7 +32,9 @@
                         </select> 
 
                         <span id="total"></span>
-                        
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ALL&nbsp;<input type="checkbox" id="all" name="all" value="ALL">
+                        <br>
+                        <span id="lists"></span>
                         <br>
                         <button type="submit" class="btn btn-success">Export Data</button>
 

@@ -229,9 +229,11 @@ class ImportdataController extends Controller
      * @param  \App\importdata  $importdata
      * @return \Illuminate\Http\Response
      */
-    public function edit(importdata $importdata)
+    public function gettable(Request $request)
     {
-        //
+        $tname=$request->master;
+        $tblcols = DB::select("SHOW COLUMNS FROM ". $tname);
+        return $tblcols;
     }
 
     /**

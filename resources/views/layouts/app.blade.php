@@ -83,12 +83,12 @@
 </body>
 <script type="text/javascript">
         jQuery(document).ready(function($) {
+            $('#all').hide();
             var div_data='<option value="" disabled selected>Select Table</option>';
             $(div_data).appendTo('#master');
             setTimeout(function() {
                        all();
                 },1000);
-            var DB='Tables_in_'+'{{ env("DB_DATABASE")}}';
             function all(){
                 $.ajax ({
                     type: 'GET',
@@ -97,12 +97,34 @@
                     success : function(data) {
                         $.each(data,function(i,obj)
                         {
-                            div_data='<option value="'+obj.DB+'">'+(i+1)+'. '+obj.DB+'</option>';
+                            div_data='<option value="'+obj.Tables_in_hos_s4+'">'+(i+1)+'. '+obj.Tables_in_hos_s4+'</option>';
                             $(div_data).appendTo('#master'); 
                         });
                     },error:function(e){
                     alert("error");}
                 });
+            }
+            
+            function gets(master){
+                $('#lists').html('');
+                if(master){
+                       $.ajax ({
+                        type: 'GET',
+                        url: "{{ route('gettable') }}",
+                        data: {master:master},
+                        success : function(listing) {
+                            var lists='<table style="width:100%"><tr><th style="min-width:150px">Field Name</th><th>From</th><th>To</th><th>More</th></tr><tbody id="list"></tbody></table>';
+                            $('#lists').html(lists);
+                            $.each(listing,function(i,obj)
+                            {
+                                list='<tr><td>'+(i+1)+'. '+obj.Field+'</td><td><input type="text" id="from" name="from"></td><td><input type="text" id="to" name="to"></td><td><input type="text" id="more" name="more"></td></tr>';
+                                $(list).appendTo('#list'); 
+                            });
+                            $('#all').show();
+                        },error:function(e){
+                        alert("error");}
+                    });
+                }
             }
             
             $("#master").on('change', function() {
@@ -114,6 +136,7 @@
                         data: {master:master},
                         success : function(htmlresponse) {
                             $('#total').html(htmlresponse);
+                            gets(master);
                         },error:function(e){
                         alert("error");}
                     });
@@ -131,6 +154,14 @@
                         },error:function(e){
                         alert("error");}
                     });
+                }
+            });
+            $("#all").on('change', function() {
+                var master = $('#master').val();
+                if($(this).prop("checked") == true){
+                    $('#lists').html('');
+                }else{
+                    gets(master);
                 }
             });
         });

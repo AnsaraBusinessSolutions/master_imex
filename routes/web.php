@@ -35,3 +35,5 @@ Route::get('/master', 'ImportdataController@master')->name('master');
 
 Route::get('/showall', 'ImportdataController@showall')->name('showall');
 
+Route::get('/gettable', 'ImportdataController@gettable')->name('gettable');
+
