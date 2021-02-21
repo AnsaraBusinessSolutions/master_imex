@@ -115,7 +115,7 @@
                                 list='<tr><td><input type="checkbox" id="'+i+'" name="chk[]" class="chk" value="'+obj.Field+'"></td><td>'+(i+1)+'. '+obj.Field+'</td><td colspan="5"><input type="text" id="action-'+i+'" name="action-'+obj.Field+'" style="width:100%"disabled placeholder="ALL[*]  AND[ , ]  BETWEEN[-]"></td><td style="text-align:center"><input type="checkbox" name="out[]" value="'+obj.Field+'"></td></tr>';
                                 $(list).appendTo('#list');
                             });
-
+                            $("#all").prop("checked", false);
                             $('#all').show();
                             $('.chk').on('change', function() { 
                               var chkid="";
