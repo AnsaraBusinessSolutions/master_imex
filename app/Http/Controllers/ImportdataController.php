@@ -186,10 +186,24 @@ class ImportdataController extends Controller
         $tname=$request->input('master');
         $chk=$request->input('chk');
         $out=$request->input('out');
-        if(empty($out)){
-            return back();
-        }
+        $all=$request->input('all');
         $tim=Carbon::now()->toDateTimeString();
+        if($all=='ALL'){
+            $ename=$tname.'_'.$tim;
+            $tname=DB::table($tname)->get();
+            $header_style = (new StyleBuilder())->setFontBold()->build();
+            $rows_style = (new StyleBuilder())
+                ->setFontSize(11)
+                ->setShouldWrapText(false)
+                ->build();
+            return (new FastExcel($tname))
+                ->headerStyle($header_style)
+                ->rowsStyle($rows_style)
+                ->download($ename.'.xlsx');
+        }else{
+            if(empty($out) || empty($all)){
+            return back();
+            }
         for ($j=0; $j < count($chk); $j++) {
             $i=$chk[$j];
             $re[]=$i;
@@ -232,6 +246,7 @@ class ImportdataController extends Controller
         $tbls=DB::select("SELECT ".$valss." FROM ".$tname." WHERE ".$valus);
         $data=json_encode($tbls);
         return view('exportview',compact('data','out'));
+    }
         // $ename=$tname.'_'.$tim;
         // $tname=DB::table($tname)->get();
         // $header_style = (new StyleBuilder())->setFontBold()->build();

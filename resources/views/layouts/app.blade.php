@@ -168,9 +168,11 @@
             $("#all").on('change', function() {
                 var master = $('#master').val();
                 if($(this).prop("checked") == true){
+                    $(this).val('ALL');
                     $('#lists').html('');
                 }else{
                     gets(master);
+                    $(this).val('');
                 }
             });
 
