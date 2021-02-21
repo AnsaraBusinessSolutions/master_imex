@@ -184,26 +184,67 @@ class ImportdataController extends Controller
     public function export(Request $request)
     {
         $tname=$request->input('master');
+        $chk=$request->input('chk');
+        $out=$request->input('out');
+        if(empty($out)){
+            return back();
+        }
         $tim=Carbon::now()->toDateTimeString();
-        $ename=$tname.'_'.$tim;
-        $tname=DB::table($tname)->get();
-        $header_style = (new StyleBuilder())->setFontBold()->build();
-        $rows_style = (new StyleBuilder())
-            ->setFontSize(11)
-            ->setShouldWrapText(false)
-            ->build();
-        return (new FastExcel($tname))
-            ->headerStyle($header_style)
-            ->rowsStyle($rows_style)
-            ->download($ename.'.xlsx');
+        for ($j=0; $j < count($chk); $j++) {
+            $i=$chk[$j];
+            $re[]=$i;
+            $ins=$request->input("action-".$i);
+            if($ins=="*"){
+                return back();
+            }
+            if(strpos($ins,'*')){
+                $val=explode("*", $ins);
+                $where=$i." LIKE ".$val[0];
+            }elseif(strpos($ins,',')){
+                $val=explode(",", $ins);
+                $vals="";$k="";
+                foreach ($val as $key => $value) {
+                    if($vals!=""){$k=",";}
+                    $vals=$vals.$k.$value;
+                }
+                $where=$i." IN (".$vals.")";
+            }elseif(strpos($ins,'-')){
+                $val=explode("-", $ins);
+                $where=$i." BETWEEN ".$val[0].' AND '.$val[1];
+            }else{
+                $where=$i." = ".$ins;
+            }
+            $wheres[]=$where;
+        }
+        $valus="";$l="";
+        if(count($wheres)>1){
+        foreach ($wheres as $key => $value) {
+            if($valus!=""){$l=" OR ";}
+            $valus=$valus.$l.$value;
+        }}else{
+            $valus=$wheres[0];
+        }
+        $valss="";$ks="";
+        foreach ($out as $key => $value) {
+            if($valss!=""){$ks=",";}
+            $valss=$valss.$ks.$value;
+        }
+        $tbls=DB::select("SELECT ".$valss." FROM ".$tname." WHERE ".$valus);
+        $data=json_encode($tbls);
+        return view('exportview',compact('data','out'));
+        // $ename=$tname.'_'.$tim;
+        // $tname=DB::table($tname)->get();
+        // $header_style = (new StyleBuilder())->setFontBold()->build();
+        // $rows_style = (new StyleBuilder())
+        //     ->setFontSize(11)
+        //     ->setShouldWrapText(false)
+        //     ->build();
+        // return (new FastExcel($tname))
+        //     ->headerStyle($header_style)
+        //     ->rowsStyle($rows_style)
+        //     ->download($ename.'.xlsx');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function master(Request $request)
     {
         $tname=$request->master;
@@ -211,12 +252,6 @@ class ImportdataController extends Controller
         return 'Total : '.$count;
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\importdata  $importdata
-     * @return \Illuminate\Http\Response
-     */
     public function showall()
     {
         $DB=env("DB_DATABASE");
@@ -228,12 +263,6 @@ class ImportdataController extends Controller
         return $tbl;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\importdata  $importdata
-     * @return \Illuminate\Http\Response
-     */
     public function gettable(Request $request)
     {
         $tname=$request->master;
@@ -241,60 +270,45 @@ class ImportdataController extends Controller
         return $tblcols;
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\importdata  $importdata
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, importdata $importdata)
+    public function search(Request $request)
     {
-        //
+        $datas="hiiii";
+        
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\importdata  $importdata
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(importdata $importdata)
+
+    public function view() 
     {
-        //
+    //    //$productLog = new ProductLog('admins');
+
+    // //$data = ProductTable::query()
+    //         ->table('admins');
+
+    // //$data = ProductTable::count();
+    //     return response($data, 200);
+    // $tbls=DB::select('SHOW TABLES');
+    // //$tbls=json_encode($tbls);
+    // foreach ($tbls as $value) {
+    //     $tbl=$value->Tables_in_hos_s4;
+
+    //     print_r("elseif("."$"."tname=='".$tbl."'){
+    //             "."$"."tname=".$tbl."::all();<br>}");
+        
+    // }
+    // die;
+    // $path="app/Models/".$tbl.".php";
+    //     $myfile = fopen($path, "w") or die("Unable to open file");
+    //     $txt = "<?php
+
+    //     namespace App;
+    //     use Illuminate\Database\Eloquent\Model;
+
+    //     class ".$tbl." extends Model
+    //     {
+    //         protected "."$"."table = '".$tbl."';
+    //         protected "."$"."guarded = [];
+    //     }";
+    //     fwrite($myfile, $txt);
+    //     fclose($myfile);
     }
-public function view() 
-{
-//    //$productLog = new ProductLog('admins');
-
-// //$data = ProductTable::query()
-//         ->table('admins');
-
-// //$data = ProductTable::count();
-//     return response($data, 200);
-// $tbls=DB::select('SHOW TABLES');
-// //$tbls=json_encode($tbls);
-// foreach ($tbls as $value) {
-//     $tbl=$value->Tables_in_hos_s4;
-
-//     print_r("elseif("."$"."tname=='".$tbl."'){
-//             "."$"."tname=".$tbl."::all();<br>}");
-    
-// }
-// die;
-// $path="app/Models/".$tbl.".php";
-//     $myfile = fopen($path, "w") or die("Unable to open file");
-//     $txt = "<?php
-
-//     namespace App;
-//     use Illuminate\Database\Eloquent\Model;
-
-//     class ".$tbl." extends Model
-//     {
-//         protected "."$"."table = '".$tbl."';
-//         protected "."$"."guarded = [];
-//     }";
-//     fwrite($myfile, $txt);
-//     fclose($myfile);
-}
 }

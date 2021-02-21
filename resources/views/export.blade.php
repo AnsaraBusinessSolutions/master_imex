@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-10">
+        <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
                     <div class="row">
@@ -36,8 +36,7 @@
                         <br>
                         <span id="lists"></span>
                         <br>
-                        <button type="submit" class="btn btn-success">Export Data</button>
-
+                        <button type="submit" class="btn btn-success">Search</button>
                     </form>
                 </div>
             </div>

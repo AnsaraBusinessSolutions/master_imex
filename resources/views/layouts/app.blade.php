@@ -86,24 +86,19 @@
             $('#all').hide();
             var div_data='<option value="" disabled selected>Select Table</option>';
             $(div_data).appendTo('#master');
-            setTimeout(function() {
-                       all();
-                },500);
-            function all(){
-                $.ajax ({
-                    type: 'GET',
-                    url: "{{ route('showall') }}",
-                    data: {},
-                    success : function(data) {
-                        $.each(data,function(i,obj)
-                        {
-                            div_data='<option value="'+obj+'">'+(i+1)+'. '+obj+'</option>';
-                            $(div_data).appendTo('#master'); 
-                        });
-                    },error:function(e){
-                    alert("error");}
-                });
-            }
+            $.ajax ({
+                type: 'GET',
+                url: "{{ route('showall') }}",
+                data: {},
+                success : function(data) {
+                    $.each(data,function(i,obj)
+                    {
+                        div_data='<option value="'+obj+'">'+(i+1)+'. '+obj+'</option>';
+                        $(div_data).appendTo('#master'); 
+                    });
+                },error:function(e){
+                alert("error");}
+            });
             
             function gets(master){
                 $('#lists').html('');
@@ -113,14 +108,28 @@
                         url: "{{ route('gettable') }}",
                         data: {master:master},
                         success : function(listing) {
-                            var lists='<table style="width:100%"><tr><th style="min-width:150px">Field Name</th><th>From</th><th>To</th><th>More</th></tr><tbody id="list"></tbody></table>';
+                            var lists='<table style="width:100%"><tr><th>Select</th><th style="min-width:150px">Field Name</th><th colspan="5" style="text-align:center">Action</th><th style="text-align:center">Output</th></tr><tbody id="list"></tbody></table>';
                             $('#lists').html(lists);
                             $.each(listing,function(i,obj)
                             {
-                                list='<tr><td>'+(i+1)+'. '+obj.Field+'</td><td><input type="text" id="from" name="from"></td><td><input type="text" id="to" name="to"></td><td><input type="text" id="more" name="more"></td></tr>';
-                                $(list).appendTo('#list'); 
+                                list='<tr><td><input type="checkbox" id="'+i+'" name="chk[]" class="chk" value="'+obj.Field+'"></td><td>'+(i+1)+'. '+obj.Field+'</td><td colspan="5"><input type="text" id="action-'+i+'" name="action-'+obj.Field+'" style="width:100%"disabled placeholder="ALL[*]  AND[ , ]  BETWEEN[-]"></td><td style="text-align:center"><input type="checkbox" name="out[]" value="'+obj.Field+'"></td></tr>';
+                                $(list).appendTo('#list');
                             });
+
                             $('#all').show();
+                            $('.chk').on('change', function() { 
+                              var chkid="";
+                              chkid=$(this).attr("id");
+                              $("#action-"+chkid).val("");
+                              if (this.checked) {
+                                $("#action-"+chkid).prop( "disabled", false);
+                                $("#action-"+chkid).prop( "required", true);
+                                
+                              }else{
+                                $("#action-"+chkid).prop( "disabled", true);
+                                $("#action-"+chkid).prop( "required", false);
+                              }
+                            });
                         },error:function(e){
                         alert("error");}
                     });
@@ -164,6 +173,7 @@
                     gets(master);
                 }
             });
+
         });
     </script>
 </html>

@@ -25,6 +25,8 @@ Route::get('/home', function () {
 
 Route::post('/home', 'ImportdataController@index')->name('home');
 
+Route::get('/search', 'ImportdataController@search')->name('search');
+
 Route::view('/export', 'export')->name('export');
 
 Route::post('/export', 'ImportdataController@export')->name('exports');
