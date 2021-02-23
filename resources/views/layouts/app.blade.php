@@ -101,7 +101,8 @@
                         $(div_data).appendTo('#master'); 
                     });
                 },error:function(e){
-                alert("Error..!  try again");}
+                    //alert("Error..!  try again");
+                }
             });
             
             function gets(master){

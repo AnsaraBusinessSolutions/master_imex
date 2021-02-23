@@ -34,7 +34,7 @@ class ImportdataController extends Controller
 
     public function exindex()
     {
-        return view('export');
+        return view('export')->with('datas','');
     }
 
     public function index(Request $request)

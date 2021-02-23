@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Auth;
+use User;
 class LoginController extends Controller
 {
     /*
@@ -28,7 +29,7 @@ class LoginController extends Controller
      */
     //protected $redirectTo = RouteServiceProvider::HOME;
     protected function redirectTo(){
-            if(Auth::user()->usertype == '111'){
+            if(Auth::User()->usertype == '111'){
                 return '/home';
             }else{
                 return '/login';
