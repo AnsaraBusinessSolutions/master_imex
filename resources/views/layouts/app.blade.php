@@ -101,7 +101,7 @@
                         $(div_data).appendTo('#master'); 
                     });
                 },error:function(e){
-                alert("error");}
+                alert("Error..!  try again");}
             });
             
             function gets(master){
@@ -181,7 +181,7 @@
                             });
                                         
                         },error:function(e){
-                        alert("error");}
+                        alert("Error..!  try again");}
                     });
                 }
             }
@@ -197,7 +197,7 @@
                             $('#total').html(htmlresponse);
                             gets(master);
                         },error:function(e){
-                        alert("error");}
+                        alert("Error..!  try again");}
                     });
                 }
             });
@@ -211,7 +211,7 @@
                         success : function(htmlresponse) {
                             $('#totals').html(htmlresponse);
                         },error:function(e){
-                        alert("error");}
+                        alert("Error..!  try again");}
                     });
                 }
             });

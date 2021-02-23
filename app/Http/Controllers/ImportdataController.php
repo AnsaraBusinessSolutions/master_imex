@@ -26,6 +26,17 @@ class ImportdataController extends Controller
     {
         $this->middleware('auth');
     }
+
+    public function home()
+    {
+        return view('home')->with('datas','');
+    }
+
+    public function exindex()
+    {
+        return view('export');
+    }
+
     public function index(Request $request)
     {
         $master = $request->input('master');

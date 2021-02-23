@@ -18,16 +18,13 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', function () {
-    $msg = "";
-    return view('home')->with('datas',$msg);
-});
+Route::get('/home', 'ImportdataController@home')->name('home');
 
 Route::post('/home', 'ImportdataController@index')->name('home');
 
 Route::get('/search', 'ImportdataController@search')->name('search');
 
-Route::view('/export', 'export')->name('export');
+Route::get('/export', 'ImportdataController@exindex')->name('export');
 
 Route::get('/exports', 'ImportdataController@export')->name('exports');
 
