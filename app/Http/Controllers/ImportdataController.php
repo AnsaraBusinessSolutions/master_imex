@@ -183,83 +183,66 @@ class ImportdataController extends Controller
      */
     public function export(Request $request)
     {
+        //..
+    }
+
+    public function search(Request $request)
+    {
         $tname=$request->input('master');
         $chk=$request->input('chk');
         $out=$request->input('out');
         $all=$request->input('all');
-        $tim=Carbon::now()->toDateTimeString();
-        if($all=='ALL'){
-            $ename=$tname.'_'.$tim;
-            $tname=DB::table($tname)->get();
-            $header_style = (new StyleBuilder())->setFontBold()->build();
-            $rows_style = (new StyleBuilder())
-                ->setFontSize(11)
-                ->setShouldWrapText(false)
-                ->build();
-            return (new FastExcel($tname))
-                ->headerStyle($header_style)
-                ->rowsStyle($rows_style)
-                ->download($ename.'.xlsx');
-        }else{
-            if(empty($out) || empty($all)){
-            return back();
-            }
-        for ($j=0; $j < count($chk); $j++) {
-            $i=$chk[$j];
-            $re[]=$i;
-            $ins=$request->input("action-".$i);
-            if($ins=="*"){
-                return back();
-            }
-            if(strpos($ins,'*')){
-                $val=explode("*", $ins);
-                $where=$i." LIKE ".$val[0];
-            }elseif(strpos($ins,',')){
-                $val=explode(",", $ins);
-                $vals="";$k="";
-                foreach ($val as $key => $value) {
-                    if($vals!=""){$k=",";}
-                    $vals=$vals.$k.$value;
-                }
-                $where=$i." IN (".$vals.")";
-            }elseif(strpos($ins,'-')){
-                $val=explode("-", $ins);
-                $where=$i." BETWEEN ".$val[0].' AND '.$val[1];
+        if($request->input('search')!='Search'){
+            $tim=Carbon::now()->toDateTimeString();        
+            if($all=='ALL'){
+                $tbls=DB::table($tname)->select($out)->get();
+                $ename=$tname.'_'.$tim;
+                $header_style = (new StyleBuilder())->setFontBold()->build();
+                $rows_style = (new StyleBuilder())
+                    ->setFontSize(11)
+                    ->setShouldWrapText(false)
+                    ->build();
+                return (new FastExcel($tbls))
+                    ->headerStyle($header_style)
+                    ->rowsStyle($rows_style)
+                    ->download($ename.'.xlsx');
             }else{
-                $where=$i." = ".$ins;
+                foreach ($chk as $key => $value) {
+                    $ins[$value]=$request->input("action-".$value);
+                }
+                $tbls=DB::table($tname)->select($out)->where($ins)->get();
+                $ename=$tname.'_'.$tim;
+                $header_style = (new StyleBuilder())->setFontBold()->build();
+                $rows_style = (new StyleBuilder())
+                    ->setFontSize(11)
+                    ->setShouldWrapText(false)
+                    ->build();
+                return (new FastExcel($tbls))
+                    ->headerStyle($header_style)
+                    ->rowsStyle($rows_style)
+                    ->download($ename.'.xlsx');
             }
-            $wheres[]=$where;
-        }
-        $valus="";$l="";
-        if(count($wheres)>1){
-        foreach ($wheres as $key => $value) {
-            if($valus!=""){$l=" OR ";}
-            $valus=$valus.$l.$value;
-        }}else{
-            $valus=$wheres[0];
-        }
-        $valss="";$ks="";
-        foreach ($out as $key => $value) {
-            if($valss!=""){$ks=",";}
-            $valss=$valss.$ks.$value;
-        }
-        $tbls=DB::select("SELECT ".$valss." FROM ".$tname." WHERE ".$valus);
-        $data=json_encode($tbls);
-        return view('exportview',compact('data','out'));
+        }else{
+            if($all=='ALL'){
+                $tbls=DB::table($tname)->select($out)->get();
+                $data=json_encode($tbls);
+                return view('exportview',compact('data','out'));
+            }else{
+                foreach ($chk as $key => $value) {
+                    $ins[$value]=$request->input("action-".$value);
+                    // if(strpos($ins[$value],',')){
+                    //     $val=explode(",", $ins);
+                    //     $where="IN";
+                    // }
+                }
+                $tbls=DB::table($tname)->select($out)->where($ins)->get();
+                $data=json_encode($tbls);
+                return view('exportview',compact('data','out'));
+            }
+        }    
+        
+        
     }
-        // $ename=$tname.'_'.$tim;
-        // $tname=DB::table($tname)->get();
-        // $header_style = (new StyleBuilder())->setFontBold()->build();
-        // $rows_style = (new StyleBuilder())
-        //     ->setFontSize(11)
-        //     ->setShouldWrapText(false)
-        //     ->build();
-        // return (new FastExcel($tname))
-        //     ->headerStyle($header_style)
-        //     ->rowsStyle($rows_style)
-        //     ->download($ename.'.xlsx');
-    }
-
     public function master(Request $request)
     {
         $tname=$request->master;
@@ -285,11 +268,7 @@ class ImportdataController extends Controller
         return $tblcols;
     }
 
-    public function search(Request $request)
-    {
-        $datas="hiiii";
-        
-    }
+    
 
 
     public function view() 

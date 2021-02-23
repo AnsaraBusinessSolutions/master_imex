@@ -86,6 +86,10 @@
             $('#all').hide();
             var div_data='<option value="" disabled selected>Select Table</option>';
             $(div_data).appendTo('#master');
+            function pad (str, max) {
+              str = str.toString();
+              return str.length < max ? pad("0" + str, max) : str;
+            }
             $.ajax ({
                 type: 'GET',
                 url: "{{ route('showall') }}",
@@ -93,7 +97,7 @@
                 success : function(data) {
                     $.each(data,function(i,obj)
                     {
-                        div_data='<option value="'+obj+'">'+(i+1)+'. '+obj+'</option>';
+                        div_data='<option value="'+obj+'">'+pad((i+1), 2)+'. '+obj+'</option>';
                         $(div_data).appendTo('#master'); 
                     });
                 },error:function(e){
@@ -108,11 +112,11 @@
                         url: "{{ route('gettable') }}",
                         data: {master:master},
                         success : function(listing) {
-                            var lists='<table style="width:100%"><tr><th>Select</th><th style="min-width:150px">Field Name</th><th colspan="5" style="text-align:center">Action</th><th style="text-align:center">Output</th></tr><tbody id="list"></tbody></table>';
+                            var lists='<table style="width:100%"><tr><th style="text-align:center">Select</th><th style="min-width:150px">Field Name</th><th colspan="5" style="text-align:center">Action ALL&nbsp;<input type="checkbox" id="all" name="all" value=""></th><th style="text-align:center">Output&nbsp;<input type="checkbox" id="allout" name="allout" value=""></th></tr><tbody id="list"></tbody></table>';
                             $('#lists').html(lists);
                             $.each(listing,function(i,obj)
                             {
-                                list='<tr><td><input type="checkbox" id="'+i+'" name="chk[]" class="chk" value="'+obj.Field+'"></td><td>'+(i+1)+'. '+obj.Field+'</td><td colspan="5"><input type="text" id="action-'+i+'" name="action-'+obj.Field+'" style="width:100%"disabled placeholder="ALL[*]  AND[ , ]  BETWEEN[-]"></td><td style="text-align:center"><input type="checkbox" name="out[]" value="'+obj.Field+'"></td></tr>';
+                                list='<tr><td style="text-align:center"><input type="checkbox" id="'+i+'" name="chk[]" class="chk" value="'+obj.Field+'"></td><td>'+(i+1)+'. '+obj.Field+'</td><td colspan="5"><input type="text" class="chkin" id="action-'+i+'" name="action-'+obj.Field+'" style="width:100%"disabled placeholder="" onfocusout="star()"></td><td style="text-align:center"><input type="checkbox" name="out[]" class="outs" value="'+obj.Field+'"></td></tr>';
                                 $(list).appendTo('#list');
                             });
                             $("#all").prop("checked", false);
@@ -122,6 +126,8 @@
                               chkid=$(this).attr("id");
                               $("#action-"+chkid).val("");
                               if (this.checked) {
+                                $("#all").prop("checked", false);
+                                $("#all").val('');
                                 $("#action-"+chkid).prop( "disabled", false);
                                 $("#action-"+chkid).prop( "required", true);
                                 
@@ -130,6 +136,50 @@
                                 $("#action-"+chkid).prop( "required", false);
                               }
                             });
+                            $(".outs").on('change', function() {
+                                if($(this).prop("checked") == false){
+                                    $("#allout").prop("checked", false);
+                                    $("#allout").val('');
+                                    if($("#allout").prop("checked") == false &&$('.outs:checkbox:checked').length==0){
+                                        $(".search").prop( "disabled", true);
+                                    }
+                                }else{
+                                    $(".search").prop( "disabled", false);
+                                    if($('.outs:checkbox:not(":checked")').length==0){
+                                        $("#allout").prop("checked", true);
+                                        $("#allout").val('ALL');
+                                    }
+                                }
+                            });
+                            $("#allout").on('change', function() {
+                                if($(this).prop("checked") == true){
+                                    $(".outs").prop("checked", true);
+                                    $(this).val('ALL');
+                                    $(".search").prop( "disabled", false);
+                                }else{
+                                    $(".outs").prop("checked", false);
+                                    $(this).val('');
+                                    $(".search").prop( "disabled", true);
+                                }
+                            });
+                            $("#all").on('change', function() {
+                                var master = $('#master').val();
+                                if($(this).prop("checked") == true){
+                                    $(this).val('ALL');
+                                    $(".chk").prop("checked", false);
+                                    $(".chkin").prop( "disabled", true);
+                                    $(".chkin").prop( "required", false);
+                                }else{
+                                    $(this).val('');
+                                }
+                            });
+                            $('.chkin').focusout(function() {
+                            //     if($(this).val()=="*" || $(this).val()=="," || $(this).val()=="-"){
+                            //         alert("type valid input");
+                            //         $(this).focus();
+                            //     }
+                            });
+                                        
                         },error:function(e){
                         alert("error");}
                     });
@@ -165,17 +215,6 @@
                     });
                 }
             });
-            $("#all").on('change', function() {
-                var master = $('#master').val();
-                if($(this).prop("checked") == true){
-                    $(this).val('ALL');
-                    $('#lists').html('');
-                }else{
-                    gets(master);
-                    $(this).val('');
-                }
-            });
-
         });
     </script>
 </html>

@@ -21,22 +21,16 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    <form action="{{ route('exports') }}" method="post" enctype="multipart/form-data">
-
+                    <form action="{{ route('search') }}" method="get" enctype="multipart/form-data">
                         @csrf
-
                         <label>Table Name:</label>
-
-                        <select id="master" name="master">
-                            
-                        </select> 
-
+                        <select id="master" name="master"></select> 
                         <span id="total"></span>
-                        <span style="float:right;">ALL&nbsp;<input type="checkbox" id="all" name="all" value=""></span>
                         <br>
                         <span id="lists"></span>
                         <br>
-                        <button type="submit" class="btn btn-success">Search</button>
+                        <input type="submit" class="btn btn-success search" target="_blank" name="search" value="Search" disabled>
+                        <input type="submit" class="btn btn-success search" name="search" value="Export" disabled>
                     </form>
                 </div>
             </div>

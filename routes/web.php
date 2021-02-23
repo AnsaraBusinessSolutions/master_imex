@@ -29,7 +29,7 @@ Route::get('/search', 'ImportdataController@search')->name('search');
 
 Route::view('/export', 'export')->name('export');
 
-Route::post('/export', 'ImportdataController@export')->name('exports');
+Route::get('/exports', 'ImportdataController@export')->name('exports');
 
 Route::get('/view', 'ImportdataController@view')->name('view');
 
