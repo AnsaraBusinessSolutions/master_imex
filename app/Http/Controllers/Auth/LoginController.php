@@ -32,6 +32,7 @@ class LoginController extends Controller
             if(Auth::User()->usertype == '111'){
                 return '/home';
             }else{
+                $this->middleware('guest')->except('logout');
                 return '/login';
             }
         }

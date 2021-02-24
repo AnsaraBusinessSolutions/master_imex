@@ -22,10 +22,10 @@ class ImportdataController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function __construct()
+    /*public function __construct()
     {
         $this->middleware('auth');
-    }
+    }*/
 
     public function home()
     {
@@ -64,8 +64,8 @@ class ImportdataController extends Controller
                     'batch' => $line['batch'],
                     'map' => $line['map'],
                     'stock_value' => $line['stock_value'],
-                    'mfg_date' => $line['mfg_date'],
-                    'expiry_date' => $line['expiry_date']
+                    'mfg_date' => date_format($line['mfg_date'],"Y-m-d"),
+                    'expiry_date' => date_format($line['expiry_date'],"Y-m-d")
                 ]);
             });
             $iccnt=count($customers);
@@ -73,9 +73,9 @@ class ImportdataController extends Controller
             $msg = "Stock Total :".$accnt." | Created ".($accnt-$bccnt)." | Updated ".($iccnt-($accnt-$bccnt));
             return view('home')->with('datas',$msg);
         }elseif($master=='ibd_po_details'){
-            $bccnt=ibd_po_detail::count();
+            $bccnt=ibd_po_details::count();
             $customers = (new FastExcel)->import($path, function ($line) {
-                return ibd_po_detail::updateOrCreate([
+                return ibd_po_details::updateOrCreate([
                     'nupco_po_no' => $line['nupco_po_no'],
                     'nupco_po_item' => $line['nupco_po_item']
                 ],[
@@ -83,7 +83,7 @@ class ImportdataController extends Controller
                     'nupco_po_item' => $line['nupco_po_item'],
                     'plant' => $line['plant'],
                     'nupco_material' => $line['nupco_material'],
-                    'po_date' => $line['po_date'],
+                    'po_date' => date_format($line['po_date'],"Y-m-d"),
                     'nupco_material_description' => $line['nupco_material_description'],
                     'order_quantity' => $line['order_quantity'],
                     'open_qty' => $line['open_qty'],
@@ -97,7 +97,7 @@ class ImportdataController extends Controller
                     'vendor_name' => $line['vendor_name'],
                     'status' => $line['status'],
                     'trade_code' => $line['trade_code'],
-                    'po_delivery_date' => $line['po_delivery_date'],
+                    'po_delivery_date' => date_format($line['po_delivery_date'],"Y-m-d"),
                     'moh_tender_no' => $line['moh_tender_no'],
                     'cust_mat_code' => $line['cust_mat_code'],
                     'cust_no' => $line['cust_no'],
@@ -121,7 +121,7 @@ class ImportdataController extends Controller
                 ]);
             });
             $iccnt=count($customers);
-            $accnt=ibd_po_detail::count();
+            $accnt=ibd_po_details::count();
             $msg = "PO Total :".$accnt." | Created ".($accnt-$bccnt)." | Updated ".($iccnt-($accnt-$bccnt));
             return view('home')->with('datas',$msg);
         }elseif($master=='pgi_details'){
@@ -133,7 +133,7 @@ class ImportdataController extends Controller
                     'batch_qty' => $line['batch_qty'],
                     'batch_no' => $line['batch_no'],
                     'manufacture_date' => $line['manufacture_date'],
-                    'expiry_date' => $line['expiry_date'],
+                    'expiry_date' => date_format($line['expiry_date'],"Y-m-d"),
                     'order_id' => $line['order_id'],
                     'order_main_id' => $line['order_main_id'],
                     'category' => $line['category'],
@@ -143,7 +143,7 @@ class ImportdataController extends Controller
                     'material_desc' => $line['material_desc'],
                     'qty_ordered' => $line['qty_ordered'],
                     'uom' => $line['uom'],
-                    'delivery_date' => $line['delivery_date'],
+                    'delivery_date' => date_format($line['delivery_date'],"Y-m-d"),
                     'supplying_plant_code' => $line['supplying_plant_code'],
                     'supplying_plant' => $line['supplying_plant'],
                     'sloc_id' => $line['sloc_id'],
@@ -206,7 +206,7 @@ class ImportdataController extends Controller
         $chk=$request->input('chk');
         $out=$request->input('out');
         $all=$request->input('all');
-        if($request->input('search')!='Search'){
+        if($request->input('search')=='Export'){
             $tim=Carbon::now()->toDateTimeString();        
             if($all=='ALL'){
                 $tbls=DB::table($tname)->select($out)->get();
@@ -236,7 +236,7 @@ class ImportdataController extends Controller
                     ->rowsStyle($rows_style)
                     ->download($ename.'.xlsx');
             }
-        }else{
+        }elseif($request->input('search')=='Search'){
             if($all=='ALL'){
                 $tbls=DB::table($tname)->select($out)->get();
                 $data=json_encode($tbls);
@@ -244,15 +244,13 @@ class ImportdataController extends Controller
             }else{
                 foreach ($chk as $key => $value) {
                     $ins[$value]=$request->input("action-".$value);
-                    // if(strpos($ins[$value],',')){
-                    //     $val=explode(",", $ins);
-                    //     $where="IN";
-                    // }
                 }
                 $tbls=DB::table($tname)->select($out)->where($ins)->get();
                 $data=json_encode($tbls);
                 return view('exportview',compact('data','out'));
             }
+        }else{
+            return back();
         }    
         
         

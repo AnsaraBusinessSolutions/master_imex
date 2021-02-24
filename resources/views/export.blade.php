@@ -31,6 +31,7 @@
                         <br>
                         <input type="submit" class="btn btn-success search" target="_blank" name="search" value="Search" disabled>
                         <input type="submit" class="btn btn-success search" name="search" value="Export" disabled>
+                        <span id="cnts"></span>
                     </form>
                 </div>
             </div>

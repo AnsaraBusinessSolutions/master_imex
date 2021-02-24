@@ -86,6 +86,7 @@
             $('#all').hide();
             var div_data='<option value="" disabled selected>Select Table</option>';
             $(div_data).appendTo('#master');
+
             function pad (str, max) {
               str = str.toString();
               return str.length < max ? pad("0" + str, max) : str;
@@ -113,11 +114,12 @@
                         url: "{{ route('gettable') }}",
                         data: {master:master},
                         success : function(listing) {
-                            var lists='<table style="width:100%"><tr><th style="text-align:center">Select</th><th style="min-width:150px">Field Name</th><th colspan="5" style="text-align:center">Action ALL&nbsp;<input type="checkbox" id="all" name="all" value=""></th><th style="text-align:center">Output&nbsp;<input type="checkbox" id="allout" name="allout" value=""></th></tr><tbody id="list"></tbody></table>';
+                            var lists='<table style="width:100%"><tr><th style="text-align:center">Select</th><th style="min-width:150px">Field Name</th><th>⚙️</th><th colspan="5" style="text-align:center">🔎&nbsp;<input type="checkbox" id="all" name="all" value="">(all data)</th><th style="text-align:center">📇&nbsp;<input type="checkbox" id="allout" name="allout" value=""></th></tr><tbody id="list"></tbody></table>';
                             $('#lists').html(lists);
                             $.each(listing,function(i,obj)
                             {
-                                list='<tr><td style="text-align:center"><input type="checkbox" id="'+i+'" name="chk[]" class="chk" value="'+obj.Field+'"></td><td>'+(i+1)+'. '+obj.Field+'</td><td colspan="5"><input type="text" class="chkin" id="action-'+i+'" name="action-'+obj.Field+'" style="width:100%"disabled placeholder="" onfocusout="star()"></td><td style="text-align:center"><input type="checkbox" name="out[]" class="outs" value="'+obj.Field+'"></td></tr>';
+                                var Select_ops='<select id="pos'+obj.Field+'" name="pos'+obj.Field+'" style="width:20px;"><option value="=" selected>EQUAL</option><option value="BETWEEN">BETWEEN(,)</option><option value="LIKE">LIKE</option><option value="IN">IN(.,.,.)</option></select>';
+                                list='<tr><td style="text-align:center"><input type="checkbox" id="'+i+'" name="chk[]" class="chk" value="'+obj.Field+'"></td><td>'+(i+1)+'. '+obj.Field+'</td><td>'+Select_ops+'</td><td colspan="5"><input type="text" class="chkin" id="action-'+i+'" name="action-'+obj.Field+'" style="width:100%"disabled ></td><td style="text-align:center"><input type="checkbox" name="out[]" class="outs" value="'+obj.Field+'"></td></tr>';
                                 $(list).appendTo('#list');
                             });
                             $("#all").prop("checked", false);
@@ -131,21 +133,30 @@
                                 $("#all").val('');
                                 $("#action-"+chkid).prop( "disabled", false);
                                 $("#action-"+chkid).prop( "required", true);
-                                
+                                if($("#allout").prop("checked") == true || $('.outs:checkbox:checked').length>0){
+                                        $(".search").prop( "disabled", false);
+                                }
                               }else{
                                 $("#action-"+chkid).prop( "disabled", true);
                                 $("#action-"+chkid).prop( "required", false);
+                                if($('.chk:checkbox:checked').length==0 && $("#all").prop("checked") == false){
+                                        $(".search").prop( "disabled", true);
+                                    }else{
+                                        $(".search").prop( "disabled", false);
+                                    }
                               }
                             });
                             $(".outs").on('change', function() {
                                 if($(this).prop("checked") == false){
                                     $("#allout").prop("checked", false);
                                     $("#allout").val('');
-                                    if($("#allout").prop("checked") == false &&$('.outs:checkbox:checked').length==0){
+                                    if($("#allout").prop("checked") == false && $('.outs:checkbox:checked').length==0){
                                         $(".search").prop( "disabled", true);
                                     }
                                 }else{
-                                    $(".search").prop( "disabled", false);
+                                    if($("#all").prop("checked") == true || $('.chk:checkbox:checked').length>0){
+                                        $(".search").prop( "disabled", false);
+                                    }
                                     if($('.outs:checkbox:not(":checked")').length==0){
                                         $("#allout").prop("checked", true);
                                         $("#allout").val('ALL');
@@ -156,7 +167,9 @@
                                 if($(this).prop("checked") == true){
                                     $(".outs").prop("checked", true);
                                     $(this).val('ALL');
-                                    $(".search").prop( "disabled", false);
+                                    if($("#all").prop("checked") == true || $('.chk:checkbox:checked').length>0){
+                                        $(".search").prop( "disabled", false);
+                                    }
                                 }else{
                                     $(".outs").prop("checked", false);
                                     $(this).val('');
@@ -170,17 +183,40 @@
                                     $(".chk").prop("checked", false);
                                     $(".chkin").prop( "disabled", true);
                                     $(".chkin").prop( "required", false);
+                                    if($("#allout").prop("checked") == true || $('.outs:checkbox:checked').length>0){
+                                        $(".search").prop( "disabled", false);
+                                    }
                                 }else{
                                     $(this).val('');
+                                    if($('.chk:checkbox:checked').length==0){
+                                        $(".search").prop( "disabled", true);
+                                    }else{
+                                        $(".search").prop( "disabled", false);
+                                    }
                                 }
-                            });
+                            });/*
                             $('.chkin').focusout(function() {
                             //     if($(this).val()=="*" || $(this).val()=="," || $(this).val()=="-"){
                             //         alert("type valid input");
                             //         $(this).focus();
                             //     }
-                            });
-                                        
+                            });*/
+                            $("#chkcnt").on('click', function() {
+                                var formdata = $('form').serializeArray();
+                                console.log(formdata);
+                                return false;
+                                if(master){
+                                       $.ajax ({
+                                        type: 'GET',
+                                        url: "{{ route('chkcnts') }}",
+                                        data: {master:master,},
+                                        success : function(htmlresponse) {
+                                            $('#chkcnt').html(htmlresponse);
+                                        },error:function(e){
+                                        alert("Error..!  try again");}
+                                    });
+                                }
+                            });       
                         },error:function(e){
                         alert("Error..!  try again");}
                     });
