@@ -200,23 +200,7 @@
                             //         alert("type valid input");
                             //         $(this).focus();
                             //     }
-                            });*/
-                            $("#chkcnt").on('click', function() {
-                                var formdata = $('form').serializeArray();
-                                console.log(formdata);
-                                return false;
-                                if(master){
-                                       $.ajax ({
-                                        type: 'GET',
-                                        url: "{{ route('chkcnts') }}",
-                                        data: {master:master,},
-                                        success : function(htmlresponse) {
-                                            $('#chkcnt').html(htmlresponse);
-                                        },error:function(e){
-                                        alert("Error..!  try again");}
-                                    });
-                                }
-                            });       
+                            });*/    
                         },error:function(e){
                         alert("Error..!  try again");}
                     });
